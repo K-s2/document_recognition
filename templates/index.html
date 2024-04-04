@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flower Species Prediction</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto', sans-serif;
+            background-color: #f5f5f5;
+            text-align: center;
+            margin-top: 50px;
+            color: #333;
+        }
+        h1 {
+            color: #333; /* Change the color from green to black */
+            padding: 30px 0;
+        }
+        form {
+            margin: 20px auto;
+        }
+        input[type="text"] {
+            display: block;
+            width: 80%;
+            padding: 10px;
+            margin: 10px auto;
+            border: 1px solid #AAA;
+            border-radius: 3px;
+        }
+        input[type="submit"] {
+            display: block;
+            padding: 10px 20px;
+            margin: 10px auto;
+            background-color: #FF3333; /* Change the color from green to light red */
+            border: none;
+            color: #FFF;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        input[type="submit"]:hover {
+            background-color: #D12D2D; /* Darker shade of light red */
+        }
+        .predict-box {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 300px;
+            margin: 0 auto;
+            background-color: rgba(0, 0, 0, 0.05); /* Change color from light red to very light black */
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+            border: 2px solid #FF3333;
+            padding: 20px;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <form id="predictForm" onsubmit="event.preventDefault(); submitData()">
+        <div class="predict-box">
+            <label for="inputFile">Upload your jpg file:</label>
+            <input type="file" id="inputFile" accept="image/jpeg">
+            <input type="submit" value="Predict">
+        </div>
+    </form>
+
+    <script>
+        async function submitData() {
+            const input = document.getElementById('inputFile');
+            const file = input.files[0];
+
+            if (file.type !== "image/jpeg") {
+                alert("Invalid file type. Please upload an image.");
+                return;
+            }
+            
+            const formData = new FormData();
+            formData.append('file', file);
+
+            const response = await fetch('/predict', {
+                method: 'POST',
+                body: formData
+            });
+
+            const data = await response.json();
+            console.log(data);
+
+            window.location.href = "/prediction_result?predictions=" + data.predictions;
+        }
+    </script>
+</body>
+
+
+</html>
