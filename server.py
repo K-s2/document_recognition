@@ -1,6 +1,7 @@
 import uvicorn
 import csv
 import numpy as np
+from tensorflow.keras.preprocessing import image as image_utils
 from tensorflow.keras.models import load_model
 from fastapi import FastAPI, Request
 from fastapi.staticfiles import StaticFiles
@@ -32,10 +33,13 @@ import logging
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
+IMG_WIDTH = 150
+IMG_HEIGHT = 150
+BATCH_SIZE = 32
 
 # App creation and model loading
 app = FastAPI()
-model = load_model("/mnt/d/project/tractor_forecasting_website/my_model.h5")
+model = load_model("/mnt/c/project/document_recognition/model (1).h5")
 
 
 # Set up templates directory
@@ -63,20 +67,25 @@ async def predict(file: UploadFile = File(...)):
     # Load the image
     # Load the image
     contents = await file.read()
-    image = Image.open(io.BytesIO(contents))
-    image = image.resize((150, 150))
 
-    # Convert the image to numpy array and reshape
-    image = img_to_array(image)
-    image = np.expand_dims(image, axis=0)
+    # Чтение изображения с помощью PIL
+    img = Image.open(io.BytesIO(contents))
 
-    # Predict the class of the image
-    predictions = model.predict(image)
+    # Изменение размера изображения используя 'image_utils'
+    img = img.resize((IMG_WIDTH, IMG_HEIGHT))
 
-    # Get the class with the highest probability
-    highest_probability_index = np.argmax(predictions)
+    # Преобразование изображения в numpy array
+    x = image_utils.img_to_array(img)
+    x = np.expand_dims(x, axis=0)
 
-    return {"predictions": int(highest_probability_index)} # Assuming your model predicts classes, not probabilities.
+    # Нормализация изображения
+    x /= 255.
+
+    # Предсказание класса изображения
+    prediction = model.predict(x)
+    predicted_class = np.argmax(prediction)
+
+    return {"predictions": int(predicted_class)} # Assuming your model predicts a single class, not probabilities.
 
 
 
