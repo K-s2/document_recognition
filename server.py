@@ -39,7 +39,7 @@ BATCH_SIZE = 32
 
 # App creation and model loading
 app = FastAPI()
-model = load_model("/mnt/c/project/document_recognition/model (1).h5")
+model = load_model("/mnt/d/project/document_recognition/model (1).h5")
 
 
 # Set up templates directory
@@ -80,12 +80,14 @@ async def predict(file: UploadFile = File(...)):
 
     # Нормализация изображения
     x /= 255.
+    classes = ["buildings", "forest", "glacier", "mountain", "sea", "street"]
+
 
     # Предсказание класса изображения
     prediction = model.predict(x)
     predicted_class = np.argmax(prediction)
 
-    return {"predictions": int(predicted_class)} # Assuming your model predicts a single class, not probabilities.
+    return {"predictions": classes[int(predicted_class)]}
 
 
 
