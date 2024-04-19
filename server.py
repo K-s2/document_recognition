@@ -39,7 +39,7 @@ BATCH_SIZE = 32
 
 # App creation and model loading
 app = FastAPI()
-model = load_model("/mnt/d/project/document_recognition/model (1).h5")
+model = load_model("/mnt/c/project/document_recognition/model (2).h5")
 
 
 # Set up templates directory
@@ -65,11 +65,10 @@ async def show_prediction(request: Request, predictions: str = None):
 @app.post("/predict")
 async def predict(file: UploadFile = File(...)):
     # Load the image
-    # Load the image
     contents = await file.read()
 
     # Чтение изображения с помощью PIL
-    img = Image.open(io.BytesIO(contents))
+    img = Image.open(io.BytesIO(contents)).convert('RGB')  # .convert('RGB') преобразует изображение в RGB формат
 
     # Изменение размера изображения используя 'image_utils'
     img = img.resize((IMG_WIDTH, IMG_HEIGHT))
@@ -80,14 +79,14 @@ async def predict(file: UploadFile = File(...)):
 
     # Нормализация изображения
     x /= 255.
-    classes = ["buildings", "forest", "glacier", "mountain", "sea", "street"]
-
+    classes = ["Drivers", "PTS", "Passport","STS"]
 
     # Предсказание класса изображения
     prediction = model.predict(x)
     predicted_class = np.argmax(prediction)
 
     return {"predictions": classes[int(predicted_class)]}
+
 
 
 

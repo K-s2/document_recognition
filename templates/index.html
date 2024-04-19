@@ -63,8 +63,8 @@
 <body>
     <form id="predictForm" onsubmit="event.preventDefault(); submitData()">
         <div class="predict-box">
-            <label for="inputFile">Upload your jpg file:</label>
-            <input type="file" id="inputFile" accept="image/jpeg">
+            <label for="inputFile">Upload your document:</label>
+            <input type="file" id="inputFile" accept="image/jpeg, image/png">
             <input type="submit" value="Predict">
         </div>
     </form>
@@ -74,10 +74,11 @@
             const input = document.getElementById('inputFile');
             const file = input.files[0];
 
-            if (file.type !== "image/jpeg") {
+            if (file.type !== "image/jpeg" && file.type !== "image/png") {
                 alert("Invalid file type. Please upload an image.");
                 return;
             }
+
             
             const formData = new FormData();
             formData.append('file', file);

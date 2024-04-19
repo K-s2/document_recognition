@@ -5,50 +5,29 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Prediction Result</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
     <style>
         body {
-            text-align: center; 
-            background-color: #f5f5f5; 
-            font-family: 'Roboto', sans-serif; 
-            color: #333; 
             margin: 0;
             padding: 0;
-            height: 100vh;
-            display:flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+            background-color: #FFF;
+        }
+        .content {
+            position: relative;
+            text-align: center;
+            padding: 20px;
         }
         h1 {
-       color: #FF3333; 
-            margin-bottom: 50px;
+            color: #000;
+            text-shadow: 2px 2px 5px #FFA500;
         }
         p {
             font-size: 20px; 
+            font-weight: bold;
         }
         .prediction {
             color: #FF3333; 
-        }
-        img {
-            max-width: 90%;
-            height: auto;
-            box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.3);
-            margin-top: 50px;
-        }
-        span {
-            display: flex;
-            width: 100%;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 10px;
             font-size: 24px;
-            color:#FF3333; 
-        }
-        .home-link {
-            position: absolute;
-            top: 5%;
-            left: 5%;
         }
         .home-link img {
             width: 40px;
@@ -58,8 +37,11 @@
 </head>
 <body>
     <a href="/" class="home-link"><img src="https://www.ryazagro.ru/upload/iblock/b34/kir.jpg"></a>
-    <span>Your Prediction Result</span>
-    <h1>Prediction:</h1>
-    <p>The predicted class is: <span class="prediction">{{ predictions }}</span></p>
+    <div class="content">
+        <h1>Your Prediction Result</h1>
+        <p> The predicted class is: <span class="prediction">{{ predictions }}</span></p>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 </body>
-    </html>
+</html>
